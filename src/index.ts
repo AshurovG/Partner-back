@@ -1,12 +1,19 @@
 import express from 'express';
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const path = require('path')
+
+const productsRouter = require('./products/products.routes')
 
 const app = express();
-const port =  3000;
+const PORT = 8000
 
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
-});
+app.use("/static", express.static(path.join(__dirname, "static")))
+app.use(cors())
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json())
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
+app.use('/api', productsRouter)
+
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
