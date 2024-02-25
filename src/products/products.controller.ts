@@ -38,6 +38,20 @@ class ProductsController {
             res.status(400).send({ status: 'Bad Request', message: 'File was not sent' })
         }
     }
+
+    async getProducts(req: any, res: any) {
+        ProductsDAO.getProducts()
+            .then((data: any) => {
+                res.json(data)
+            })
+            .catch((error: CustomError) => {
+                if (error.status === 500) {
+                    res.status(500).send({ status: 'Problem', message: 'Problem with database' })
+                } else {
+                    res.status(400).send({ status: 'Bad Request', message: error.message })
+                }
+            });
+    }
 }
 
 module.exports = new ProductsController()

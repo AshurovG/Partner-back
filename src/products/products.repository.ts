@@ -12,7 +12,20 @@ class ProductsRepository {
             }
           });
         });
-      }
+    }
+
+    static getProducts() {
+        return new Promise((resolve, reject) => {
+          db.query('SELECT * FROM products', (error: any, results: any) => {
+            if (error) {
+              reject(error);
+            } else {
+              const data = results.rows;
+              resolve(data);
+            }
+          });
+        });
+    }
 }
 
 module.exports = {

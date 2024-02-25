@@ -13,5 +13,6 @@ const upload = multer({
 })
 
 router.post('/products', upload.single('file'), productsController.postProduct)
+router.get('/products', productsController.getProducts)
 
 module.exports = router

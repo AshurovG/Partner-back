@@ -45,6 +45,15 @@ class ProductsDAO {
         await this._validateId(category_id)
         return await ProductsRepository.postProduct(title, url, description, category_id)
     }
+
+    static async getProducts() {
+        try {
+            const query = await ProductsRepository.getProducts()
+            return query
+        } catch (error) {
+            throw error
+        }
+    }
 }
 
 module.exports = {
