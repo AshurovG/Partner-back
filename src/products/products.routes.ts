@@ -16,6 +16,7 @@ router.post('/products', upload.single('file'), productsController.postProduct)
 router.get('/products', productsController.getProducts)
 router.get('/products/:id', productsController.getProductById)
 router.put('/products/:id', upload.single('file'), productsController.updateProductById)
+router.delete('/products/:id', productsController.deleteProductById)
 
 module.exports = router;
 export {};

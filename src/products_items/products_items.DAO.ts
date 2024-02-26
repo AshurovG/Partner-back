@@ -58,7 +58,7 @@ class ProductsItemsDAO {
     static async getItemsFromProduct(product_id: number) {
         try {
             await this._validateId(product_id)
-            await this._isExistsId(product_id)
+            // await this._isExistsId(product_id)
             const query = await ProductsItemsRepository.getItemsFromProduct(product_id)
             return query
         } catch (error) {
@@ -84,7 +84,6 @@ class ProductsItemsDAO {
             console.log('catch')
             throw error
         }
-
     }
 }
 

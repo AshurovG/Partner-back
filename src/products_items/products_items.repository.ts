@@ -30,7 +30,7 @@ class ProductsItemsRepository {
 
   static getProductItemById(id: number) {
     return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM products_items WHERE id = $1', [id], (error: any, results: any) => {
+      db.query('SELECT * FROM products_items WHERE product_item_id = $1', [id], (error: any, results: any) => {
         if (error) {
           reject(error);
         } else {
@@ -43,7 +43,7 @@ class ProductsItemsRepository {
 
   static getByIdOneToMany(id: number, product_id: number) { // Получение записи по первичному и внешнему ключу для валидации
     return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM products_items WHERE product_id = $1 AND id = $2', [product_id, id], (error: any, results: any) => {
+      db.query('SELECT * FROM products_items WHERE product_id = $1 AND product_item_id = $2', [product_id, id], (error: any, results: any) => {
         if (error) {
           reject(error);
         } else {
@@ -56,7 +56,7 @@ class ProductsItemsRepository {
   
   static deleteProductItem(id: number, product_id: number) {
     return new Promise((resolve, reject) => {
-      db.query('DELETE FROM products_items WHERE id = $1 AND product_id = $2', [id, product_id], (error: any, results: any) => {
+      db.query('DELETE FROM products_items WHERE product_item_id = $1 AND product_id = $2', [id, product_id], (error: any, results: any) => {
         if (error) {
           reject(error);
         } else {

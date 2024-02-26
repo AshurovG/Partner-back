@@ -115,6 +115,23 @@ class ProductsController {
                 });
         }
     }
+
+    async deleteProductById(req: any, res: any) {
+        const id = req.params.id
+        ProductsDAO.deleteProductById(id)
+            .then(() => {
+                res.json('Запись удалена из БД !')
+            })
+            .catch((error: CustomError) => {
+                if (error.status === 404) {
+                    res.status(error.status).send({ status: 'Not found', message: error.message })
+                } else if (error.status === 500) {
+                    res.status(500).send({ status: 'Problem', message: 'Problem with database' })
+                } else {
+                    res.status(400).send({ status: 'Bad Request', message: error.message })
+                }
+            });
+    }
 }
 
 module.exports = new ProductsController()
