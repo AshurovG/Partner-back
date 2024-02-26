@@ -70,6 +70,23 @@ class ProductsController {
             });
     }
 
+    async getProductFromCategory(req: any, res: any) {
+        const { title } = req.query
+        ProductsDAO.getProductFromCategory(title)
+            .then((data: any) => {
+                res.json(data)
+            })
+            .catch((error: CustomError) => {
+                if (error.status === 404) {
+                    res.status(error.status).send({ status: 'Not found', message: error.message })
+                } else if (error.status === 500) {
+                    res.status(500).send({ status: 'Problem', message: 'Problem with database' })
+                } else {
+                    res.status(400).send({ status: 'Bad Request', message: error.message })
+                }
+            });
+    }
+
     async updateProductById(req: any, res: any) {
         const { title, description, category_id, imgUrl, isFileChanged } = req.body
         const { id } = req.params

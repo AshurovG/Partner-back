@@ -15,6 +15,7 @@ const upload = multer({
 router.post('/products', upload.single('file'), productsController.postProduct)
 router.get('/products', productsController.getProducts)
 router.get('/products/:id', productsController.getProductById)
+router.get('/products_from_category', productsController.getProductFromCategory)
 router.put('/products/:id', upload.single('file'), productsController.updateProductById)
 router.delete('/products/:id', productsController.deleteProductById)
 

@@ -1,5 +1,6 @@
 const { ProductsRepository } = require('./products.repository')
 const { ProductsItemsDAO } = require('../products_items/products_items.DAO')
+const { CategoriesDAO } = require('../categories/categories.DAO')
 const fs = require('fs')
 import { ProductData } from '../types'
 
@@ -73,6 +74,19 @@ class ProductsDAO {
         }
     }
 
+    static async getProductFromCategory(title: string) {
+        try {
+            if (!title) {
+                throw new CustomError('title is empty', 400)
+            }
+            const category_id = await CategoriesDAO.getCategoryIdByTitle(title)
+            const query = await ProductsRepository.getProductFromCategory(category_id)
+            return query
+        } catch (error) {
+            throw error
+        }
+    }
+
     static async getProductById(id: number) {
         try {
             await this._validateId(id)
@@ -83,6 +97,7 @@ class ProductsDAO {
             throw error
         }
     }
+
 
     static async updateProductById(id: number, title: string, url: string, description: string, category_id: number) {
         try {
