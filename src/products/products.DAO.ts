@@ -103,6 +103,33 @@ class ProductsDAO {
             throw error
         }
     }
+
+    // static async deleteById(id: number) {
+    //     try {
+    //         const exteriorDesignItem = await ProductsDAO.getAll(id)
+    //         let json = JSON.parse(JSON.stringify(exteriorDesignItem));
+    //         let itemUrl = ''
+    //         for (let item of json) {
+    //             itemUrl = item.exterior_design_items_url.substring(item.exterior_design_items_url.indexOf("static"))
+    //             fs.unlink(itemUrl, () => { // Для удаления самих файлов картинок
+    //                 console.log(itemUrl)
+    //             })
+    //         }
+
+    //         const exteriorDesign = await this.getProductById(id)
+    //         const fileUrl = exteriorDesign.exterior_design_url
+    //         const newUrl = fileUrl.substring(fileUrl.indexOf("static"));
+    //         fs.unlink(newUrl, () => {
+    //             return
+    //         })
+    //         await this._validateId(id)
+    //         await this.isExistsId(id)
+    //         const query = await ProductsRepository.deleteById(id)
+    //         return query
+    //     } catch (error) {
+    //         throw error
+    //     }
+    // }
 }
 
 module.exports = {

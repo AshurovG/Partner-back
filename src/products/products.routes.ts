@@ -17,4 +17,5 @@ router.get('/products', productsController.getProducts)
 router.get('/products/:id', productsController.getProductById)
 router.put('/products/:id', upload.single('file'), productsController.updateProductById)
 
-module.exports = router
+module.exports = router;
+export {};

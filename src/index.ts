@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path')
 
 const productsRouter = require('./products/products.routes')
+const productsItemsRouter = require('./products_items/products_items.routes')
 
 const app = express();
 const PORT = 8000
@@ -15,5 +16,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json())
 
 app.use('/api', productsRouter)
+app.use('/api', productsItemsRouter)
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`))

@@ -53,9 +53,22 @@ class ProductsRepository {
         });
       }
     
-      static updateProductByIdWithoutUrl(id: number, title: string, description: string, category_id: number) {
+    static updateProductByIdWithoutUrl(id: number, title: string, description: string, category_id: number) {
+    return new Promise((resolve, reject) => {
+        db.query('UPDATE products set title = $1, description = $2, category_id = $4  where id = $3 RETURNING *', [title, description, id, category_id], (error: any, results: any) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    const data = results.rows[0];
+                    resolve(data);
+                }
+            });
+        });
+    }
+
+    static deleteById(id: number) {
         return new Promise((resolve, reject) => {
-          db.query('UPDATE products set title = $1, description = $2, category_id = $4  where id = $3 RETURNING *', [title, description, id, category_id], (error: any, results: any) => {
+          db.query('DELETE FROM products where id = $1', [id], (error: any, results: any) => {
             if (error) {
               reject(error);
             } else {
@@ -65,6 +78,7 @@ class ProductsRepository {
           });
         });
       }
+
 }
 
 module.exports = {
