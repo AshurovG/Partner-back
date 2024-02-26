@@ -69,6 +69,52 @@ class ProductsController {
                 }
             });
     }
+
+    async updateProductById(req: any, res: any) {
+        const { title, description, category_id, imgUrl, isFileChanged } = req.body
+        const { id } = req.params
+        if (isFileChanged == 1) {
+            const searchString = "8000/";
+            const startIndex = imgUrl.indexOf(searchString) + searchString.length;
+            const deletingFilePath = imgUrl.substring(startIndex);
+            fs.unlink(deletingFilePath, () => { // Для удаления cтарых файлов
+                console.log(deletingFilePath)
+            })
+            await sharp(req.file.path)
+                .toFile(`./static/products/${req.file.originalname}`)
+            const url = `http://localhost:8000/static/products/${req.file.originalname}`
+            fs.unlink(req.file.path, () => { // Для удаления закодированных файлов после использования
+                console.log(req.file.path)
+            })
+            ProductsDAO.updateProductById(id, title, url, description, category_id)
+                .then((data: any) => {
+                    res.json(data)
+                })
+                .catch((error: CustomError) => {
+                    if (error.status === 404) {
+                        res.status(error.status).send({ status: 'Not found', message: error.message })
+                    } else if (error.status === 500) {
+                        res.status(500).send({ status: 'Problem', message: 'Problem with database' })
+                    } else {
+                        res.status(400).send({ status: 'Bad Request', message: error.message })
+                    }
+                });
+        } else {
+            ProductsDAO.updateProductByIdWithoutUrl(id, title, description, category_id)
+                .then((data: any) => {
+                    res.json(data)
+                })
+                .catch((error: CustomError) => {
+                    if (error.status === 404) {
+                        res.status(error.status).send({ status: 'Not found', message: error.message })
+                    } else if (error.status === 500) {
+                        res.status(500).send({ status: 'Problem', message: 'Problem with database' })
+                    } else {
+                        res.status(400).send({ status: 'Bad Request', message: error.message })
+                    }
+                });
+        }
+    }
 }
 
 module.exports = new ProductsController()

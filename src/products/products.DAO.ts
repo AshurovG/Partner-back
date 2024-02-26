@@ -42,7 +42,7 @@ class ProductsDAO {
             product.url === undefined ||
             product.description === undefined)
         ) {
-            let error = new CustomError('invalidate exterior design data', 400);
+            let error = new CustomError('invalidate product data', 400);
             throw error
         }
     }
@@ -51,7 +51,7 @@ class ProductsDAO {
         if (await (title === undefined ||
             description === undefined)
         ) {
-            let error = new CustomError('invalidate exterior design data', 400);
+            let error = new CustomError('invalidate product data', 400);
             throw error
         }
     }
@@ -87,7 +87,7 @@ class ProductsDAO {
             await this._validateId(id)
             await this.isExistsId(id)
             await this._validate({ title, url, description })
-            return await ProductsRepository.updateProductById(id, title, url, description)
+            return await ProductsRepository.updateProductById(id, title, url, description, category_id)
         } catch (error) {
             throw error
         }
@@ -98,7 +98,7 @@ class ProductsDAO {
             await this._validateId(id)
             await this.isExistsId(id)
             await this._validateWithoutUrl(title, description)
-            return await ProductsRepository.updateProductByIdWithoutUrl(id, title, description)
+            return await ProductsRepository.updateProductByIdWithoutUrl(id, title, description, category_id)
         } catch (error) {
             throw error
         }
