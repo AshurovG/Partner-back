@@ -16,9 +16,9 @@ class ProductsController {
         const { title, description, category_id } = req.body
         if (req.file) {
             await sharp(req.file.path)
-            .toFile(`./static/products/${req.file.originalname}`)
+            .toFile(`/usr/src/app/static/products/${req.file.originalname}`)
 
-            const url = `http://localhost:8000/static/products/${req.file.originalname}`
+            const url = `https://partnerev.ru/static/products/${req.file.originalname}`
             fs.unlink(req.file.path, () => {
                 console.log(req.file.path)
             })
@@ -91,15 +91,16 @@ class ProductsController {
         const { title, description, category_id, imgUrl, isFileChanged } = req.body
         const { id } = req.params
         if (isFileChanged == 1) {
-            const searchString = "8000/";
+            let deletingFilePath = ''
+            const searchString = "ru/";
             const startIndex = imgUrl.indexOf(searchString) + searchString.length;
-            const deletingFilePath = imgUrl.substring(startIndex);
+            deletingFilePath = imgUrl.substring(startIndex);
             fs.unlink(deletingFilePath, () => { // Для удаления cтарых файлов
                 console.log(deletingFilePath)
             })
             await sharp(req.file.path)
-                .toFile(`./static/products/${req.file.originalname}`)
-            const url = `http://localhost:8000/static/products/${req.file.originalname}`
+                .toFile(`/usr/src/app/static/products/${req.file.originalname}`)
+            const url = `https://partnerev.ru/static/products/${req.file.originalname}`
             fs.unlink(req.file.path, () => { // Для удаления закодированных файлов после использования
                 console.log(req.file.path)
             })

@@ -16,9 +16,9 @@ class ProductsItemsController {
         const { product_id } = req.body
         if (req.file) {
             await sharp(req.file.path)
-            .toFile(`./static/products_items/${req.file.originalname}`)
+            .toFile(`/usr/src/app/static/products_items/${req.file.originalname}`)
 
-            const url = `http://localhost:8000/static/products_items/${req.file.originalname}`
+            const url = `https://partnerev.ru/static/products_items/${req.file.originalname}`
 
             fs.unlink(req.file.path, () => {
                 console.log(req.file.path)
