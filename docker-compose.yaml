@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+ partner_back:
+    container_name: partner_back
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - partner_db
+    environment:
+      DATABASE_URL: postgres://postgres:your_password@partner_db:5432/partner
+
+ partner_db:
+    container_name: partner_db
+    image: postgres:13
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=13082003
+      - POSTGRES_USER=ashurovgeorgy
+      - POSTGRES_DB=partner
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
