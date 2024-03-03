@@ -2,13 +2,10 @@ version: '3.8'
 services:
  partner_back:
     container_name: partner_back
+    image: partner_back
     build: .
     ports:
-      - "8000:8000"
-    depends_on:
-      - partner_db
-    environment:
-      DATABASE_URL: postgres://postgres:your_password@partner_db:5432/partner
+      - "18000:8000"
 
  partner_db:
     container_name: partner_db

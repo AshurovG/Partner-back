@@ -1,4 +1,5 @@
 const { ProductsDAO } = require('./products.DAO')
+const { ProductsItemsDAO } = require('../products_items/products_items.DAO')
 const sharp = require('sharp')
 const fs = require('fs')
 
@@ -54,9 +55,20 @@ class ProductsController {
     }
 
     async getProductById(req: any, res: any) {
-        const id = req.params.id //id - из url страницы
+        const id = req.params.id
+        let items: any[] = []
+        ProductsItemsDAO.getItemsFromProduct(id)
+        .then((data: any) => {
+            items = data
+        })
+        .catch(() => {
+            return
+        }) 
         ProductsDAO.getProductById(id)
             .then((data: any) => {
+                
+                data.items = items
+                console.log(data)
                 res.json(data)
             })
             .catch((error: CustomError) => {
