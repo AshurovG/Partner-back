@@ -6,7 +6,8 @@ services:
     build: .
     ports:
       - "18000:8000"
-
+    volumes:
+      - ./static:/usr/src/app/static
  partner_db:
     container_name: partner_db
     image: postgres:13

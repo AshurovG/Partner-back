@@ -28,6 +28,18 @@ class CategoriesRepository {
             });
       });
     }
+
+    static getCategoryById(id: number) {
+        return new Promise((resolve, reject) => {
+            db.query(`SELECT * FROM categories WHERE category_id = ${id}`, (error: any, results: any) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results.rows[0])
+            }
+            });
+      });
+    }
 }
 
 module.exports = {

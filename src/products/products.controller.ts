@@ -15,14 +15,15 @@ class CustomError extends Error {
 class ProductsController {
     async postProduct(req: any, res: any) {
         const { title, description, category_id } = req.body
+	console.log(`/usr/src/app/static/products/${req.file.originalname}`)
         if (req.file) {
             await sharp(req.file.path)
             .toFile(`/usr/src/app/static/products/${req.file.originalname}`)
 
             const url = `https://partnerev.ru/static/products/${req.file.originalname}`
-            fs.unlink(req.file.path, () => {
-                console.log(req.file.path)
-            })
+    //        fs.unlink(req.file.path, () => {
+  //              console.log(req.file.path)
+//            })
 
             ProductsDAO.postProduct(title, url, description, category_id)
             .then((data: any) => {

@@ -6,6 +6,7 @@ const path = require('path')
 const productsRouter = require('./products/products.routes')
 const productsItemsRouter = require('./products_items/products_items.routes')
 const authRouter = require('./auth/auth.routes')
+const categoriesRouter = require('./categories/categories.routes')
 // const emailRouter = require('./email/email.controller')
 
 const app = express();
@@ -20,6 +21,7 @@ app.use(express.json())
 app.use('/api', productsRouter)
 app.use('/api', productsItemsRouter)
 app.use('/api', authRouter)
+app.use('/api', categoriesRouter)
 // app.use('/api', emailRouter)
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`))

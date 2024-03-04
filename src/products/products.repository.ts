@@ -46,7 +46,7 @@ class ProductsRepository {
           if (error) {
             reject(error);
           } else {
-            const data = results.rows[0];
+            const data = results.rows;
             resolve(data);
           }
         });
