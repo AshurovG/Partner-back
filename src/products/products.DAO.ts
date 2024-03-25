@@ -42,27 +42,25 @@ class ProductsDAO {
 
     static async _validate(product: ProductData) { // Проверка на определенность каждого параметра
         if (await (product.title === undefined ||
-            product.url === undefined ||
-            product.description === undefined)
+            product.url === undefined)
         ) {
             let error = new CustomError('invalidate product data', 400);
             throw error
         }
     }
 
-    static async _validateWithoutUrl(title: string, description: string) { // Проверка на определенность каждого параметра
-        if (await (title === undefined ||
-            description === undefined)
+    static async _validateWithoutUrl(title: string) { // Проверка на определенность каждого параметра
+        if (await (title === undefined)
         ) {
             let error = new CustomError('invalidate product data', 400);
             throw error
         }
     }
 
-    static async postProduct(title: string, url: string, description: string, category_id: number) {
-        await this._validate({ title, url, description })
+    static async postProduct(title: string, url: string, itemUrl: string, description: string, category_id: number) {
+        await this._validate({ title, url })
         await this._validateId(category_id)
-        return await ProductsRepository.postProduct(title, url, description, category_id)
+        return await ProductsRepository.postProduct(title, url, itemUrl, description, category_id)
     }
 
     static async getProducts() {
@@ -99,23 +97,23 @@ class ProductsDAO {
     }
 
 
-    static async updateProductById(id: number, title: string, url: string, description: string, category_id: number) {
+    static async updateProductById(id: number, title: string, url: string, description: string) {
         try {
             await this._validateId(id)
             await this.isExistsId(id)
             await this._validate({ title, url, description })
-            return await ProductsRepository.updateProductById(id, title, url, description, category_id)
+            return await ProductsRepository.updateProductById(id, title, url, description)
         } catch (error) {
             throw error
         }
     }
 
-    static async updateProductByIdWithoutUrl(id: number, title: string, description: string, category_id: number) {
+    static async updateProductByIdWithoutUrl(id: number, title: string, description: string) {
         try {
             await this._validateId(id)
             await this.isExistsId(id)
-            await this._validateWithoutUrl(title, description)
-            return await ProductsRepository.updateProductByIdWithoutUrl(id, title, description, category_id)
+            await this._validateWithoutUrl(title)
+            return await ProductsRepository.updateProductByIdWithoutUrl(id, title, description)
         } catch (error) {
             throw error
         }

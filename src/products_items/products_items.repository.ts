@@ -54,9 +54,9 @@ class ProductsItemsRepository {
     });
   }
   
-  static deleteProductItem(id: number, product_id: number) {
+  static deleteProductItem(id: number) {
     return new Promise((resolve, reject) => {
-      db.query('DELETE FROM products_items WHERE product_item_id = $1 AND product_id = $2', [id, product_id], (error: any, results: any) => {
+      db.query('DELETE FROM products_items WHERE product_item_id = $1', [id], (error: any, results: any) => {
         if (error) {
           reject(error);
         } else {

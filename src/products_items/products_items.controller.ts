@@ -57,10 +57,8 @@ class ProductsItemsController {
 
     async deleteProductItem(req: any, res: any) {
         const { id } = req.params
-        const product_id = req.query.product_id
-        console.log('product_id', product_id)
         console.log(id)
-        ProductsItemsDAO.deleteProductItem(id, product_id)
+        ProductsItemsDAO.deleteProductItem(id)
             .then((data: any) => {
                 res.json(data)
             })

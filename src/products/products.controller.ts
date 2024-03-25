@@ -19,13 +19,18 @@ class ProductsController {
         if (req.file) {
             await sharp(req.file.path)
             .toFile(`/usr/src/app/static/products/${req.file.originalname}`)
+	    
+	     await sharp(req.file.path).toFile(
+             `/usr/src/app/static/products_items/${req.file.originalname}`);
 
             const url = `https://partnerev.ru/static/products/${req.file.originalname}`
+	    const itemUrl = `https://partnerev.ru/static/products_items/${req.file.originalname}`;
+
     //        fs.unlink(req.file.path, () => {
   //              console.log(req.file.path)
 //            })
 
-            ProductsDAO.postProduct(title, url, description, category_id)
+            ProductsDAO.postProduct(title, url, itemUrl, description, category_id)
             .then((data: any) => {
                 res.json(data)
             })
@@ -101,7 +106,7 @@ class ProductsController {
     }
 
     async updateProductById(req: any, res: any) {
-        const { title, description, category_id, imgUrl, isFileChanged } = req.body
+        const { title, description, imgUrl, isFileChanged } = req.body
         const { id } = req.params
         if (isFileChanged == 1) {
             let deletingFilePath = ''
@@ -117,7 +122,7 @@ class ProductsController {
             fs.unlink(req.file.path, () => { // Для удаления закодированных файлов после использования
                 console.log(req.file.path)
             })
-            ProductsDAO.updateProductById(id, title, url, description, category_id)
+            ProductsDAO.updateProductById(id, title, url, description)
                 .then((data: any) => {
                     res.json(data)
                 })
@@ -131,7 +136,7 @@ class ProductsController {
                     }
                 });
         } else {
-            ProductsDAO.updateProductByIdWithoutUrl(id, title, description, category_id)
+            ProductsDAO.updateProductByIdWithoutUrl(id, title, description)
                 .then((data: any) => {
                     res.json(data)
                 })

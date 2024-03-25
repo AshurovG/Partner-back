@@ -1,13 +1,15 @@
 const db = require('../db')
+const { ProductsItemsDAO } = require("../products_items/products_items.DAO");
 
 class ProductsRepository {
-    static postProduct(title: string, url: string, description: string, category_id: number) {
+    static postProduct(title: string, url: string, itemUrl: string, description: string, category_id: number) {
       return new Promise((resolve, reject) => {
         db.query('INSERT INTO products(title, url, description, category_id) VALUES ($1, $2, $3, $4) RETURNING *', [title, url, description, category_id], (error: any, results: any) => {
           if (error) {
             reject(error);
           } else {
             const data = results.rows[0];
+	    ProductsItemsDAO.postProductItem(itemUrl, data.product_id);
             resolve(data);
           }
         });
@@ -52,10 +54,10 @@ class ProductsRepository {
         });
       });
     }
-
-    static updateProductById(id: number, title: string, url: string, description: string, category_id: number) {
+	
+    static updateProductById(id: number, title: string, url: string, description: string) {
         return new Promise((resolve, reject) => {
-          db.query('UPDATE products set title = $1, url = $2, description = $4, category_id = $5 where product_id = $3 RETURNING *', [title, url, id, description, category_id], (error: any, results: any) => {
+          db.query('UPDATE products set title = $1, url = $2, description = $4 where product_id = $3 RETURNING *', [title, url, id, description], (error: any, results: any) => {
             if (error) {
               reject(error);
             } else {
@@ -66,9 +68,9 @@ class ProductsRepository {
         });
       }
     
-    static updateProductByIdWithoutUrl(id: number, title: string, description: string, category_id: number) {
+    static updateProductByIdWithoutUrl(id: number, title: string, description: string) {
     return new Promise((resolve, reject) => {
-        db.query('UPDATE products set title = $1, description = $2, category_id = $4  where product_id = $3 RETURNING *', [title, description, id, category_id], (error: any, results: any) => {
+        db.query('UPDATE products set title = $1, description = $2  where product_id = $3 RETURNING *', [title, description, id], (error: any, results: any) => {
                 if (error) {
                     reject(error);
                 } else {
@@ -97,3 +99,4 @@ class ProductsRepository {
 module.exports = {
     ProductsRepository
 }
+export {}

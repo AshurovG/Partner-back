@@ -66,19 +66,16 @@ class ProductsItemsDAO {
         }
     }
 
-    static async deleteProductItem(product_id: number, id: number) {
+    static async deleteProductItem(id: number) {
         try {
             await this._validateId(id)
-            await this._validateId(product_id)
-            await this.isExistsIdOneAndIdMany(product_id, id)
             const productItem = await ProductsItemsRepository.getProductItemById(id)
             const fileUrl = productItem.url
-            console.log('items are', productItem)
             const newUrl = fileUrl.substring(fileUrl.indexOf("static"));
             fs.unlink(newUrl, () => {
                 return
             })
-            const query = await ProductsItemsRepository.deleteProductItem(product_id, id)
+            const query = await ProductsItemsRepository.deleteProductItem(id)
             return query
         } catch (error) {
             console.log('catch')

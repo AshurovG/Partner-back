@@ -1,9 +1,9 @@
-// const Router = require('express')
-// const router = new Router()
+const Router = require('express')
+const router = new Router()
 
-// const emailController = require('./email.controller')
+const emailController = require('./email.controller')
 
-// router.post('/email', emailController.sendEmail)
+router.post('/email', emailController.sendEmail)
 
-// module.exports = router
-// export {}
+module.exports = router
+export {}
