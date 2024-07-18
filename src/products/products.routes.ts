@@ -3,7 +3,7 @@ const router = new Router()
 const multer = require('multer');
 const productsController = require('./products.controller')
 
-const MAX_SIZE = 2000000
+const MAX_SIZE = 10485760
 
 const upload = multer({
     dest: 'files/',
